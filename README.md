@@ -7,4 +7,4 @@ For this project, there are a few steps that must be followed. First, pull the r
 
 The alternative is to use the Kaggle link: https://www.kaggle.com/competitions/m5-forecasting-accuracy/data
 
-The PDF of our Writeup is also included in this repository.
+The PDF of our Writeup is also included in this repository. The line to the report is: https://github.com/SanjayThallam/PAML_Walmart/blob/main/PAML_Final_Report.pdf
