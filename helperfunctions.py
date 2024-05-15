@@ -50,14 +50,44 @@ def read_data():
 # Read the data
 calendar_df, sales_train_evaluation_df = read_data()
 
+def time_series_plot(item):
+    global sales_train_evaluation_df
+
+    stdf = sales_train_evaluation_df[sales_train_evaluation_df.id == item]
+
+    d_cols = [col for col in stdf.columns if col.startswith('d_')]
+
+    # Transpose the dataframe and merge with the calendar data
+    ste_t = stdf[['id'] + d_cols].set_index('id').T
+    ste_td = ste_t.merge(calendar_df[['date','d']].set_index('d'), left_index=True, right_index=True, validate='1:1').set_index('date')
+    
+
+    my_dpi = 100
+    fig, ax = plt.subplots(nrows = 1, ncols = 1, figsize=(540/my_dpi, 360/my_dpi), dpi=my_dpi)
+    y = pd.DataFrame(ste_td)
+    y = pd.DataFrame(y).set_index(ste_td.index)
+    y.index = pd.to_datetime(y.index)
+    y.columns = [item]
+    y.plot(color='C0', ax = ax)
+    plt.xticks(fontsize=10)
+    plt.yticks(fontsize=10)
+    # plt.legend(False)
+    plt.title(label = 'Sales Time Series Over Time',fontsize = 12)
+    plt.xlabel(xlabel = 'Date',fontsize = 10)
+    plt.tight_layout()
+    st.pyplot(fig = fig)
+
 def create_string(store_choice, category_choice, number):
     #store_chocei = string
     #categorty chocie = string
     #number = int 
     #string builder
-
+    global sales_train_evaluation_df
     number_str = str(number).zfill(3)
     myString = category_choice + "_" + number_str + "_" + store_choice + "_evaluation"
+    time_series_plot(myString)
+    
+    
     return myString
 
 num_epochs = 100
